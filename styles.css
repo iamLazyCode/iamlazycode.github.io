@@ -199,38 +199,6 @@ table tr:hover {
   font-weight: 600;
 }
 
-.status-pending {
-  background: #fff3cd;
-  color: #856404;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.status-progress {
-  background: #d1ecf1;
-  color: #0c5460;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.status-done {
-  background: #d4edda;
-  color: #155724;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.status-delivered {
-  background: #e2e3e5;
-  color: #383d41;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
 .url-link {
   color: #4ECDC4;
   text-decoration: none;

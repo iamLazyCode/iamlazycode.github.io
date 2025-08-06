@@ -39,25 +39,16 @@
             <input type="text" id="projectName" placeholder="e.g., Phone Stand, Miniature">
           </div>
           <div class="form-group">
-            <label for="projectStatus">Project Status</label>
-            <select id="projectStatus">
-              <option value="Pending">🔄 Pending</option>
-              <option value="In Progress">⚙️ In Progress</option>
-              <option value="Done">✅ Done</option>
-              <option value="Delivered">📦 Delivered</option>
-            </select>
-          </div>
-          <div class="form-group">
             <label for="projectDate">Project Date</label>
             <input type="date" id="projectDate">
+          </div>
+          <div class="form-group">
+            <label for="projectNotes">Notes (Optional)</label>
+            <input type="text" id="projectNotes" placeholder="Print settings, issues, etc.">
           </div>
           <div class="form-group form-group-full">
             <label for="projectUrl">Project URL (Optional)</label>
             <input type="url" id="projectUrl" placeholder="https://thingiverse.com/thing/...">
-          </div>
-          <div class="form-group form-group-full">
-            <label for="projectNotes">Notes (Optional)</label>
-            <input type="text" id="projectNotes" placeholder="Print settings, issues, etc.">
           </div>
         </div>
         <button class="btn" onclick="createProject()">Create Project</button>

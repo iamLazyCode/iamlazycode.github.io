@@ -67,8 +67,6 @@ function validateProjectForm() {
   const customerName = document.getElementById("customerName").value;
   const projectName = document.getElementById("projectName").value;
   const projectDate = document.getElementById("projectDate").value;
-  //const filamentId = document.getElementById("projectFilament").value;
-  //const usedWeight = document.getElementById("usedWeight").value;
 
   // Show specific error messages based on missing fields
   if (!customerName) {
@@ -83,14 +81,6 @@ function validateProjectForm() {
     showAlert("Project date is required", "error");
     return false;
   }
-  //if (!filamentId) {
-  //  showAlert("Please select a filament", "error");
-  //  return false;
-  //}
-  //if (usedWeight <= 0) {
-  //  showAlert("Used weight must be greater than 0", "error");
-  //  return false;
-  //}
 
   return true;
 }
@@ -127,7 +117,6 @@ function clearProjectForm() {
   document.getElementById("projectUrl").value = "";
   document.getElementById("projectFilament").value = "";
   document.getElementById("usedWeight").value = "";
-  document.getElementById("projectStatus").value = "Pending";
   document.getElementById("projectNotes").value = "";
 }
 // clearFilamentForm();
@@ -160,7 +149,6 @@ function createProject() {
     return;
   }
 
-  const projectStatus = document.getElementById("projectStatus").value;
   const projectUrl = document.getElementById("projectUrl").value.trim();
   const projectNotes = document.getElementById("projectNotes").value.trim();
 
@@ -169,7 +157,6 @@ function createProject() {
     projectName,
     customerName,
     projectUrl,
-    projectStatus,
     projectDate,
     notes: projectNotes,
     filamentId: null,   // Initially set to null
@@ -188,7 +175,6 @@ function createProject() {
   document.getElementById("customerName").value = "";
   document.getElementById("projectName").value = "";
   document.getElementById("projectUrl").value = "";
-  document.getElementById("projectStatus").value = "Pending";
   document.getElementById("projectNotes").value = "";
 
   showAlert("Project created successfully", "success");
@@ -370,14 +356,6 @@ function updateProjectTable() {
     .forEach((project) => {
       const row = document.createElement("tr");
 
-      // Get status class
-      let statusClass = "status-pending";
-      if (project.projectStatus === "In Progress")
-        statusClass = "status-progress";
-      else if (project.projectStatus === "Done") statusClass = "status-done";
-      else if (project.projectStatus === "Delivered")
-        statusClass = "status-delivered";
-
       // Format URL display
       const urlDisplay = project.projectUrl
         ? `<a href="${project.projectUrl}" class="url-link" target="_blank">🔗 View</a>`
@@ -390,7 +368,6 @@ function updateProjectTable() {
         <td>${project.filamentName || "Not Assigned"}</td>
         <td>${project.usedWeight}g</td>
         <td>${formatCurrency(project.projectCost, project.currency)}</td>
-        <td><span class="${statusClass}">${project.projectStatus}</span></td>
         <td>${urlDisplay}</td>
         <td>${project.notes || "-"}</td>
         <td><button class="action-btn" onclick="deleteProject(${
@@ -533,7 +510,6 @@ function downloadProjectCSV() {
     p.filamentName,
     p.usedWeight,
     p.projectCost.toFixed(2),
-    p.projectStatus,
     p.projectUrl || "",
     p.notes || "",
   ]);
