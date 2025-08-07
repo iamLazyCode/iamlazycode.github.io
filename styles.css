@@ -82,6 +82,10 @@ body {
   align-items: center;
   gap: 10px;
 }
+.section h2:nth-of-type(2) {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
 
 .form-grid {
   display: grid;
@@ -115,10 +119,6 @@ body {
   outline: none;
   border-color: #4ECDC4;
   box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
-}
-
-.form-group-full {
-  grid-column: span 2;
 }
 
 .btn {

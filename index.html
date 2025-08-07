@@ -19,75 +19,13 @@
       <!-- Enhanced Alert System -->
       <div id="alertContainer"></div>
 
-      <!-- Project Information -->
-      <!-- createProject() -->
-      <div class="section workflow-step" data-step="1">
-        <h2>ℹ️ Step 1: Project Information</h2>
-        <div class="workflow-note">
-          📝 Start here: Create your project with basic information. You'll add filament usage in Step 3 below.
-        </div>
-        <div class="workflow-note">
-          📌 Note: Customer Name and Project Name required.
-        </div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="customerName">Customer Name</label>
-            <input type="text" id="customerName" placeholder="John Doe, Personal Project, etc.">
-          </div>
-          <div class="form-group">
-            <label for="projectName">Project Name</label>
-            <input type="text" id="projectName" placeholder="e.g., Phone Stand, Miniature">
-          </div>
-          <div class="form-group">
-            <label for="projectDate">Project Date</label>
-            <input type="date" id="projectDate">
-          </div>
-          <div class="form-group">
-            <label for="projectNotes">Notes (Optional)</label>
-            <input type="text" id="projectNotes" placeholder="Print settings, issues, etc.">
-          </div>
-          <div class="form-group form-group-full">
-            <label for="projectUrl">Project URL (Optional)</label>
-            <input type="url" id="projectUrl" placeholder="https://thingiverse.com/thing/...">
-          </div>
-        </div>
-        <button class="btn" onclick="createProject()">Create Project</button>
-      </div>
-
-      <!-- Filament Inventory Table -->
-      <div class="section">
-        <h2>📦 Filament Inventory</h2>
-        <div class="table-container">
-          <table id="filamentTable">
-            <thead>
-              <tr>
-                <th>Brand</th>
-                <th>Type</th>
-                <th>Color</th>
-                <th>Original Weight</th>
-                <th>Current Weight</th>
-                <th>Used</th>
-                <th>Cost</th>
-                <th>Purchase Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="filamentTableBody">
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <!-- Add Filament Section -->
       <!-- addFilament() -->
-      <div class="section workflow-step" data-step="2">
-        <h2>➕ Step 2: Add New Filament Spool (Optional)</h2>
+      <div class="section workflow-step" data-step="1">
+        <h2>➕ Step 1: Add Filament Spools</h2>
         <div class="workflow-note">
-          📦 Add new filament spools to your inventory here, or skip if you already have filament available (see below).
-        </div>
-        <div class="workflow-note">
-          📌 Note: All feilds required.
+          📦 Add new spools to your inventory here, or skip if you already have filament available.<br />
+          📌 <strong>Note:</strong> All fields required.
         </div>
         <div class="form-grid">
           <div class="form-group">
@@ -138,10 +76,63 @@
         <button class="btn" onclick="addFilament()">Add Filament Spool</button>
       </div>
 
-      <!-- Add Project Usage Section -->
-      <!-- updateProjectWithFilament() -->
-      <div class="section workflow-step" data-step="3">
-        <h2>🔨 Step 3: Update Project with Filament Usage</h2>
+      <!-- Filament Inventory Table -->
+      <div class="section">
+        <h2>📦 Filament Inventory</h2>
+        <div class="table-container">
+          <table id="filamentTable">
+            <thead>
+              <tr>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>Color</th>
+                <th>Original Weight</th>
+                <th>Current Weight</th>
+                <th>Used</th>
+                <th>Cost</th>
+                <th>Purchase Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="filamentTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Project Information -->
+      <!-- createProject() -->
+      <div class="section workflow-step" data-step="2">
+        <h2>ℹ️ Step 2: Project Information</h2>
+        <div class="workflow-note">
+          📝 Start here: Create your project with basic information. You'll add filament usage in Step 3 below.<br />
+          📌 <strong>Note:</strong> Customer Name and Project Name required.
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" placeholder="John Doe, Personal Project, etc.">
+          </div>
+          <div class="form-group">
+            <label for="projectName">Project Name</label>
+            <input type="text" id="projectName" placeholder="e.g., Phone Stand, Miniature">
+          </div>
+          <div class="form-group">
+            <label for="projectDate">Project Date</label>
+            <input type="date" id="projectDate">
+          </div>
+          <div class="form-group">
+            <label for="projectNotes">Notes (Optional)</label>
+            <input type="text" id="projectNotes" placeholder="Print settings, issues, etc.">
+          </div>
+          <div class="form-group form-group-full">
+            <label for="projectUrl">Project URL (Optional)</label>
+            <input type="url" id="projectUrl" placeholder="https://thingiverse.com/thing/...">
+          </div>
+        </div>
+        <button class="btn" onclick="createProject()">Create Project</button>
+        <h2>🔨 Step 2a: Update Project with Filament Usage</h2>
         <div class="workflow-note">
           🎯 Select filament and enter how much you used for your project created in Step 1.
         </div>
