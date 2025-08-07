@@ -54,26 +54,28 @@
         <button class="btn" onclick="createProject()">Create Project</button>
       </div>
 
-      <!-- Inventory Overview -->
+      <!-- Filament Inventory Table -->
       <div class="section">
-        <h2>📊 Inventory Overview</h2>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-number" id="totalSpools">0</div>
-            <div class="stat-label">Total Spools</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalWeight">0g</div>
-            <div class="stat-label">Total Weight</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="totalProjects">0</div>
-            <div class="stat-label">Projects</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number" id="lowStockCount">0</div>
-            <div class="stat-label">Low Stock</div>
-          </div>
+        <h2>📦 Filament Inventory</h2>
+        <div class="table-container">
+          <table id="filamentTable">
+            <thead>
+              <tr>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>Color</th>
+                <th>Original Weight</th>
+                <th>Current Weight</th>
+                <th>Used</th>
+                <th>Cost</th>
+                <th>Purchase Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="filamentTableBody">
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -134,31 +136,6 @@
           </div>
         </div>
         <button class="btn" onclick="addFilament()">Add Filament Spool</button>
-      </div>
-
-      <!-- Filament Inventory Table -->
-      <div class="section">
-        <h2>📦 Filament Inventory</h2>
-        <div class="table-container">
-          <table id="filamentTable">
-            <thead>
-              <tr>
-                <th>Brand</th>
-                <th>Type</th>
-                <th>Color</th>
-                <th>Original Weight</th>
-                <th>Current Weight</th>
-                <th>Used</th>
-                <th>Cost</th>
-                <th>Purchase Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="filamentTableBody">
-            </tbody>
-          </table>
-        </div>
       </div>
 
       <!-- Add Project Usage Section -->

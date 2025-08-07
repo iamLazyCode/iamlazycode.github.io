@@ -379,24 +379,6 @@ function updateProjectTable() {
   );
 }
 
-// updateStats();
-function updateStats() {
-  document.getElementById("totalSpools").textContent = filaments.length;
-
-  const totalWeight = filaments.reduce((sum, f) => sum + f.currentWeight, 0);
-  document.getElementById("totalWeight").textContent =
-    totalWeight.toFixed(0) + "g";
-
-  document.getElementById("totalProjects").textContent = projects.length;
-
-  const lowStockCount = filaments.filter((f) => {
-    const usagePercent =
-      ((f.originalWeight - f.currentWeight) / f.originalWeight) * 100;
-    return usagePercent > 80;
-  }).length;
-  document.getElementById("lowStockCount").textContent = lowStockCount;
-}
-
 // deleteFilament();
 function deleteFilament(id) {
   if (
