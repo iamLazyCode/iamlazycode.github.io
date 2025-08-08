@@ -159,31 +159,36 @@ function createProject() {
     projectUrl,
     projectDate,
     notes: projectNotes,
-    filamentId: null,   // Initially set to null
-    filamentName: "",   // Initially set to empty
-    usedWeight: 0,      // Initially set to 0
-    projectCost: 0,     // Initially set to 0
-    currency: null      // Initially set to null
+    filamentId: null, // Initially set to null
+    usedWeight: 0, // Initially set to 0
+    projectCost: 0 // Initially set to 0
   }
 
   projects.push(project);
   saveData();
+  updateProjectDropdown();
   updateProjectTable();
-  updateStats();
 
   // Clear only the fields in this section
   document.getElementById("customerName").value = "";
   document.getElementById("projectName").value = "";
+  document.getElementById("projectDate").value = new Date().toISOString().split("T")[0]; // Reset date
   document.getElementById("projectUrl").value = "";
   document.getElementById("projectNotes").value = "";
 
   showAlert("Project created successfully", "success");
 }
 // updateProjectWithFilament();
-function updateProjectWithFilament(projectId) {
+function updateProjectWithFilament() {
+  const projectId = parseInt(document.getElementById("projectToUpdateSelect").value);
   const filamentId = parseInt(document.getElementById("projectFilament").value);
   const usedWeight = parseFloat(document.getElementById("usedWeight").value);
 
+  // Validate project selection
+  if (!projectId) {
+    showAlert("Please select a project to update", "error");
+    return;
+  }
   // Validate filament selection and used weight
   if (!filamentId) {
     showAlert("Please select a filament", "error");
@@ -205,8 +210,8 @@ function updateProjectWithFilament(projectId) {
     return;
   }
 
-  // Find the most recent project without filament usage
-  const projectToUpdate = projects.find(p => p.filamentId === null);
+  // Find the specific project to update based on user selection
+  const projectToUpdate = projects.find(p => p.id === projectId);
   if (!projectToUpdate) {
     showAlert("No project found to update with filament usage", "error");
     return;
@@ -218,20 +223,19 @@ function updateProjectWithFilament(projectId) {
 
   // Update the project with filament details
   projectToUpdate.filamentId = filamentId;
-  projectToUpdate.filamentName = `${filament.brand} ${filament.type} ${filament.color}`;
   projectToUpdate.usedWeight = usedWeight;
   projectToUpdate.projectCost = projectCost;
-  projectToUpdate.currency = filament.currency;
 
   // Update filament current weight
   filament.currentWeight -= usedWeight;
 
   saveData();
+  updateProjectDropdown();
   updateFilamentDropdown();
-  updateProjectTable();
-  updateStats();
+  updateTables();
 
   // Clear the filament and weight fields
+  document.getElementById("projectToUpdateSelect").value = "";
   document.getElementById("projectFilament").value = "";
   document.getElementById("usedWeight").value = "";
 
@@ -280,7 +284,6 @@ function addFilament() {
   saveData();
   updateFilamentDropdown();
   updateTables();
-  updateStats();
 
   // Clear form
   clearFilamentForm();
@@ -300,12 +303,27 @@ function updateFilamentDropdown() {
     }
   });
 }
+// updateProjectDropdown();
+function updateProjectDropdown() {
+  const select = document.getElementById("projectToUpdateSelect");
+  select.innerHTML = '<option value="">Choose a pending project...</option>';
+
+  // Find projects that haven't had filament assigned yet
+  const pendingProjects = projects.filter(p => p.filamentId === null);
+
+  pendingProjects.forEach((project) => {
+    const option = document.createElement("option");
+    option.value = project.id;
+    // Display project name, customer, and date for easy identification
+    option.textContent = `${project.projectName} (${project.customerName}) - ${project.projectDate}`;
+    select.appendChild(option);
+  });
+}
 
 // updateTables();
 function updateTables() {
   updateFilamentTable();
   updateProjectTable();
-  //updateStats();
 }
 
 // updateFilamentTable();
@@ -354,20 +372,30 @@ function updateProjectTable() {
     .slice()
     .reverse()
     .forEach((project) => {
+      // Find the associated filament to get its current details
+      const filament = filaments.find(f => f.id === project.filamentId);
+
+      // Prepare display values, handling cases where filament might be deleted
+      const filamentName = filament ? `${filament.brand} ${filament.type} ${filament.color}` : "Not Assigned";
+      const projectCostDisplay = filament ? formatCurrency(project.projectCost, filament.currency) : formatCurrency(project.projectCost, null);
+
       const row = document.createElement("tr");
 
       // Format URL display
       const urlDisplay = project.projectUrl
         ? `<a href="${project.projectUrl}" class="url-link" target="_blank">🔗 View</a>`
         : "-";
+      // Status column was missing, re-adding it.
+      const statusDisplay = project.filamentId ? "Completed" : "Pending";
 
       row.innerHTML = `
         <td>${project.projectDate}</td>
         <td>${project.projectName}</td>
         <td>${project.customerName}</td>
-        <td>${project.filamentName || "Not Assigned"}</td>
+        <td>${filamentName}</td>
         <td>${project.usedWeight}g</td>
-        <td>${formatCurrency(project.projectCost, project.currency)}</td>
+        <td>${projectCostDisplay}</td>
+        <td>${statusDisplay}</td>
         <td>${urlDisplay}</td>
         <td>${project.notes || "-"}</td>
         <td><button class="action-btn" onclick="deleteProject(${
@@ -391,8 +419,8 @@ function deleteFilament(id) {
     projects = projects.filter((p) => p.filamentId !== id);
     saveData();
     updateFilamentDropdown();
+    updateProjectDropdown();
     updateTables();
-    updateStats();
   }
 }
 // deleteProject();
@@ -409,8 +437,8 @@ function deleteProject(id) {
     projects = projects.filter((p) => p.id !== id);
     saveData();
     updateFilamentDropdown();
+    updateProjectDropdown();
     updateTables();
-    updateStats();
   }
 }
 
@@ -481,20 +509,25 @@ function downloadProjectCSV() {
     "Filament Used",
     "Weight Used (g)",
     "Cost",
-    "Status",
     "URL",
     "Notes",
   ];
-  const rows = projects.map((p) => [
-    p.projectDate,
-    p.projectName,
-    p.customerName,
-    p.filamentName,
-    p.usedWeight,
-    p.projectCost.toFixed(2),
-    p.projectUrl || "",
-    p.notes || "",
-  ]);
+  const rows = projects.map((p) => {
+    // Look up filament details for the CSV export
+    const filament = filaments.find(f => f.id === p.filamentId);
+    const filamentName = filament ? `${filament.brand} ${filament.type} ${filament.color}` : "Not Assigned";
+
+    return [
+      p.projectDate,
+      p.projectName,
+      p.customerName,
+      filamentName,
+      p.usedWeight,
+      p.projectCost.toFixed(2),
+      p.projectUrl || "",
+      p.notes || "",
+    ];
+  });
   downloadCSV("project_history.csv", [headers, ...rows]);
 }
 
@@ -535,7 +568,6 @@ function nukeAllData() {
         // Update display
         updateFilamentDropdown();
         updateTables();
-        updateStats();
 
         showAlert("All data has been permanently deleted. Starting fresh!", 'success');
       } else {
@@ -550,9 +582,9 @@ function nukeAllData() {
 // Load data from localStorage on page load
 window.onload = function () {
   loadData();
+  updateProjectDropdown();
   updateFilamentDropdown();
   updateTables();
-  updateStats();
 
   // Set today's date as default
   document.getElementById("purchaseDate").value = new Date()
